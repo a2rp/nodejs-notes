@@ -96,6 +96,9 @@ export function createAppServer() {
       try {
         const body = await readJson(request)
         if (
+          !body ||
+          typeof body !== 'object' ||
+          Array.isArray(body) ||
           typeof body.title !== 'string' ||
           !body.title.trim() ||
           body.title.length > 120
@@ -233,13 +236,15 @@ test('rejects an empty note title', async (context) => {
   }))
 
   const address = server.address()
-  const response = await fetch('http://127.0.0.1:' + address.port + '/notes', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ title: '   ' })
-  })
+  for (const body of [{ title: '   ' }, null, []]) {
+    const response = await fetch('http://127.0.0.1:' + address.port + '/notes', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body)
+    })
 
-  assert.equal(response.status, 400)
+    assert.equal(response.status, 400)
+  }
 })
 ~~~
 

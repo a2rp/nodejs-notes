@@ -23,7 +23,7 @@ function sendJson(response, statusCode, value) {
   response.end(JSON.stringify(value))
 }
 
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (request, response) => {
   const requestUrl = new URL(request.url || '/', 'http://localhost')
 
   if (request.method === 'GET' && requestUrl.pathname === '/health') {
