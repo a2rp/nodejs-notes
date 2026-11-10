@@ -6,7 +6,7 @@ These are my personal study notes from learning Node.js and using JavaScript out
 
 The chapters move from the Node.js runtime and command line into modules, npm, asynchronous work, events, files, streams, HTTP, process behavior, testing, and production practices. Each chapter explains why a concept matters, shows focused JavaScript examples, and ends with review questions. The final appendices collect the chapter code samples and provide answers to all review questions.
 
-The examples use JavaScript and Node.js built-in modules unless a chapter explicitly introduces a package. Check the official Node.js documentation for version-specific behavior, and run examples with a supported Node.js release.
+The examples use JavaScript and Node.js built-in modules unless a chapter explicitly introduces a package. They target Node.js 22 or newer; use a currently maintained LTS release and check the official documentation for version-specific behavior.
 
 ## Core topics
 

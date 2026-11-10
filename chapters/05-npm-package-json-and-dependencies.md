@@ -116,6 +116,6 @@ Create a tiny ESM project with **npm init -y**. Add a **start** script and a **t
 
 - [Creating a package.json file](https://docs.npmjs.com/creating-a-package-json-file/)
 - [Dependencies and devDependencies](https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file/)
-- [package-lock.json](https://docs.npmjs.com/cli/v11/configuring-npm/package-lock-json)
-- [npm ci](https://docs.npmjs.com/cli/v11/commands/npm-ci/)
-- [npm scripts](https://docs.npmjs.com/cli/v11/using-npm/scripts)
+- [package-lock.json](https://docs.npmjs.com/cli/v12/configuring-npm/package-lock-json)
+- [npm ci](https://docs.npmjs.com/cli/v12/commands/npm-ci/)
+- [npm scripts](https://docs.npmjs.com/cli/v12/using-npm/scripts)

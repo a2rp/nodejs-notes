@@ -67,5 +67,5 @@ Review the HTTP server from Chapter 10. Confirm it has a body-size limit, valida
 - [Node.js security best practices](https://nodejs.org/en/learn/getting-started/security-best-practices)
 - [Don't block the event loop](https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop)
 - [Node.js permission model](https://nodejs.org/api/permissions.html)
-- [npm ci](https://docs.npmjs.com/cli/v11/commands/npm-ci/)
-- [npm audit](https://docs.npmjs.com/cli/v11/commands/npm-audit/)
+- [npm ci](https://docs.npmjs.com/cli/v12/commands/npm-ci/)
+- [npm audit](https://docs.npmjs.com/cli/v12/commands/npm-audit/)

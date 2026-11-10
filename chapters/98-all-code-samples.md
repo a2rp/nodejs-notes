@@ -715,6 +715,11 @@ function readJson(request, limit = 1024 * 1024) {
     })
 
     request.on('error', reject)
+    request.on('close', () => {
+      if (!request.complete) {
+        reject(new Error('Request was closed before the message was complete'))
+      }
+    })
 
     request.on('end', () => {
       if (tooLarge) {
@@ -740,16 +745,26 @@ function readJson(request, limit = 1024 * 1024) {
 
 ~~~~js
 if (request.method === 'POST' && requestUrl.pathname === '/notes') {
-  const contentType = request.headers['content-type'] || ''
-  if (!contentType.startsWith('application/json')) {
+  const contentType = (request.headers['content-type'] || '')
+    .split(';', 1)[0]
+    .trim()
+    .toLowerCase()
+  if (contentType !== 'application/json') {
     sendJson(response, 415, { error: 'Send application/json' })
     return
   }
 
   try {
     const body = await readJson(request)
-    if (typeof body.title !== 'string' || !body.title.trim()) {
-      sendJson(response, 400, { error: 'title is required' })
+    if (
+      !body ||
+      typeof body !== 'object' ||
+      Array.isArray(body) ||
+      typeof body.title !== 'string' ||
+      !body.title.trim() ||
+      body.title.length > 120
+    ) {
+      sendJson(response, 400, { error: 'title must be a non-empty string of at most 120 characters' })
       return
     }
 
@@ -1092,7 +1107,11 @@ function readJson(request, limit = 64 * 1024) {
     })
 
     request.on('error', reject)
-    request.on('aborted', () => reject(new Error('Request was aborted')))
+    request.on('close', () => {
+      if (!request.complete) {
+        reject(new Error('Request was closed before the message was complete'))
+      }
+    })
 
     request.on('end', () => {
       if (tooLarge) {
@@ -1130,8 +1149,11 @@ export function createAppServer() {
     }
 
     if (requestUrl.pathname === '/notes' && request.method === 'POST') {
-      const contentType = request.headers['content-type'] || ''
-      if (!contentType.startsWith('application/json')) {
+      const contentType = (request.headers['content-type'] || '')
+        .split(';', 1)[0]
+        .trim()
+        .toLowerCase()
+      if (contentType !== 'application/json') {
         sendJson(response, 415, { error: 'Send application/json' })
         return
       }

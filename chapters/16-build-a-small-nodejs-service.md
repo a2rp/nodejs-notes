@@ -49,7 +49,11 @@ function readJson(request, limit = 64 * 1024) {
     })
 
     request.on('error', reject)
-    request.on('aborted', () => reject(new Error('Request was aborted')))
+    request.on('close', () => {
+      if (!request.complete) {
+        reject(new Error('Request was closed before the message was complete'))
+      }
+    })
 
     request.on('end', () => {
       if (tooLarge) {
@@ -87,8 +91,11 @@ export function createAppServer() {
     }
 
     if (requestUrl.pathname === '/notes' && request.method === 'POST') {
-      const contentType = request.headers['content-type'] || ''
-      if (!contentType.startsWith('application/json')) {
+      const contentType = (request.headers['content-type'] || '')
+        .split(';', 1)[0]
+        .trim()
+        .toLowerCase()
+      if (contentType !== 'application/json') {
         sendJson(response, 415, { error: 'Send application/json' })
         return
       }
